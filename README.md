@@ -1,5 +1,4 @@
-# launcher
-
+# Inspirations platform
 A new Flutter project.
 
 ## Getting Started
