@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:launcher/tabs/message/item_message.dart';
+import 'package:launcher/tabs/message/search.dart';
 
 class TabMessage extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
     final _theme = Theme.of(context);
@@ -11,7 +14,17 @@ class TabMessage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: Container(),
+        title:  Container(
+          alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Message',
+              maxLines: 2,
+              style: _theme.textTheme.display1
+                  .copyWith(fontWeight: FontWeight.bold, color:  _theme.primaryColorDark),
+            ),
+          ),
+        automaticallyImplyLeading: false,
         actions: <Widget>[
           new PopupMenuButton(
               icon: Icon(
@@ -39,28 +52,26 @@ class TabMessage extends StatelessWidget {
       //   ),
       //   shape: CircleBorder()
       // ),
-      body: ListView(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          SizedBox(
+           SizedBox(
             height: 16.0,
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              'Message',
-              maxLines: 2,
-              style: _theme.textTheme.display1
-                  .copyWith(fontWeight: FontWeight.bold, color:  _theme.primaryColorDark),
-            ),
+          Search(),
+           SizedBox(
+            height: 16.0,
           ),
-          Container(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              'Premium',
-              maxLines: 2,
-              style: _theme.textTheme.headline
+           Expanded(
+              child: ListView.builder(
+                shrinkWrap: true,
+                // itemCount: items.length,
+                itemBuilder: (context, index) {
+                  return ItemMessage();
+                },
+              ),
             ),
-          ),
+          
         ],
       ),
     );

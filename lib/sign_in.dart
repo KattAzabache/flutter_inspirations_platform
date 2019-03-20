@@ -27,10 +27,10 @@ class SignIn extends StatelessWidget {
                       //   topLeft: Radius.circular(20),
                       //   topRight: Radius.circular(20),
                       // ),
-                      clipper: BottomWaveClipper(),
+                      clipper: customclipper(),
                       child: Container(
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                          // borderRadius: BorderRadius.all(Radius.circular(50.0)),
                           color: Colors.white,
                         ),
                         constraints: BoxConstraints(minHeight: 200),
@@ -78,30 +78,30 @@ class SignIn extends StatelessWidget {
                               children: <Widget>[
                                 Align(
                                   alignment: Alignment.bottomRight,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      gradient: LinearGradient(colors: [
-                                        _theme.primaryColorDark,
-                                        _theme.primaryColor
-                                      ]),
-                                    ),
-                                    padding: EdgeInsets.all(8),
-                                    child: InkWell(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  HomeScreen()),
-                                        );
-                                      },
-                                      child: Icon(
-                                        Icons.arrow_forward,
-                                        color: Colors.black,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        gradient: LinearGradient(colors: [
+                                          _theme.primaryColorDark,
+                                          _theme.primaryColor
+                                        ]),
+                                      ),
+                                      padding: EdgeInsets.all(8),
+                                      child: InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    HomeScreen()),
+                                          );
+                                        },
+                                        child: Icon(
+                                          Icons.arrow_forward,
+                                          color: Colors.white,
+                                        ),
                                       ),
                                     ),
-                                  ),
                                 )
                               ],
                             ),
@@ -206,18 +206,56 @@ class SignIn extends StatelessWidget {
   }
 }
 
-class BottomWaveClipper extends CustomClipper<Path> {
+// class BottomWaveClipper extends CustomClipper<Path> {
+//   @override
+//   Path getClip(Size size) {
+//     final path = Path()
+//       ..lineTo(0.0, 100)
+//       ..lineTo(0.0, size.height - verticalSpace)
+//       // ..quadraticBezierTo(size.width, 100,size.width, -100)
+//       // ..quadraticBezierTo(0, 0, 0, size.height - verticalSpace)
+//       ..lineTo(size.width, size.height)
+//       ..lineTo(size.width, 0.0)
+//       ..close();
+
+//     return path;
+//   }
+
+//   @override
+//   bool shouldReclip(CustomClipper<Path> oldClipper) => true;
+// }
+class customclipper extends CustomClipper<Path> {
+  
   @override
   Path getClip(Size size) {
-    final path = Path()
-      ..lineTo(0.0, size.height)
-      ..lineTo(0.0, size.height - verticalSpace)
-      // ..quadraticBezierTo(size.width, 100,size.width, -100)
-      // ..quadraticBezierTo(0, 0, 0, size.height - verticalSpace)
-      ..lineTo(size.width, size.height)
-      ..lineTo(size.width, 0.0)
-      ..close();
+    var path = new Path();
+      path.lineTo(0.0,size.height );
+      
+      path.lineTo(0.0, size.height - 80);
+      path.lineTo(size.width, size.height);
+      path.lineTo(size.width, 0.0);
 
+
+//octagono
+    //    path.lineTo(0.0, 80);
+    // path.lineTo(80, 0.0);
+    // path.lineTo(size.width - 80, 0.0);
+    // path.lineTo(size.width, 80);
+    // path.lineTo(size.width, size.height - 80);
+    // path.lineTo(size.width - 80, size.height);
+    // path.lineTo(80, size.height);
+    // path.lineTo(0.0, size.height - 80);
+    // path.lineTo(0.0, 80);
+
+//viseversa
+    // path.lineTo(0.0, size.height - 20);
+    // path.quadraticBezierTo(0.0, size.height, 20.0, size.height);
+    // path.lineTo(size.width - 20.0, size.height);
+    // path.quadraticBezierTo(size.width, size.height, size.width, size.height - 20);
+    // path.lineTo(size.width, 50.0);
+    // path.quadraticBezierTo(size.width, 30.0, size.width - 20.0, 30.0);
+    // path.lineTo(20.0, 5.0);
+    // path.quadraticBezierTo(0.0, 0.0, 0.0, 20.0);
     return path;
   }
 

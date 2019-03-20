@@ -20,14 +20,15 @@ class _BottomNavBarState extends State<BottomNavBar> {
     final _theme = Theme.of(context);
     return AnimatedContainer(
       duration: Duration(milliseconds: 200),
-      width: isSelected ? 120 : 50,
+      width: isSelected ? 120 : 60,
       height: double.maxFinite,
       padding: EdgeInsets.symmetric(horizontal: 8),
       decoration: isSelected
           ? BoxDecoration(
               color: _theme.primaryColor.withOpacity(0.2),
               borderRadius: BorderRadius.circular(50))
-          : null,
+          : BoxDecoration(
+              color: Colors.transparent,),
       child: Center(
         child: ListView(
           scrollDirection: Axis.horizontal,

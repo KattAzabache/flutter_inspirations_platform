@@ -1,4 +1,4 @@
-#Mon Feb 18 18:26:44 PET 2019
-base.0=/Users/katt/dev/katt/launcher/build/app/intermediates/transforms/dexMerger/debug/0
+#Wed Mar 20 00:07:00 PET 2019
+base.0=/Users/katt/dev/katt/flutter_inspirations_platform/build/app/intermediates/transforms/dexMerger/debug/0
 path.0=classes.dex
 renamed.0=classes.dex

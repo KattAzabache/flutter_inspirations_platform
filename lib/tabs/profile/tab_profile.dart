@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:launcher/tabs/home/new_product.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class TabProfile extends StatelessWidget {
   @override
@@ -42,9 +44,8 @@ class TabProfile extends StatelessWidget {
                 right: 0,
                 child: Container(
                   decoration: BoxDecoration(
-                  color: _theme.primaryColor.withOpacity(0.15),
-                    shape: BoxShape.circle
-                  ),
+                      color: _theme.primaryColor.withOpacity(0.15),
+                      shape: BoxShape.circle),
                   height: 150,
                   width: 150,
                 ),
@@ -175,7 +176,113 @@ class TabProfile extends StatelessWidget {
                 )
               ],
             ),
-          )
+          ),
+          SizedBox(
+            height: 24.0,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                width: width - 100,
+                height: 120,
+                alignment: Alignment.topLeft,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(25),
+                        topRight: Radius.circular(25),
+                        bottomLeft: Radius.circular(25)),
+                    boxShadow: [
+                      BoxShadow(
+                          color:
+                              Theme.of(context).primaryColor.withOpacity(0.7),
+                          offset: Offset(-7, 7))
+                    ]),
+                child: Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      CircularPercentIndicator(
+                        radius: 75,
+                        lineWidth: 3,
+                        percent: 0.69,
+                        progressColor: Theme.of(context).primaryColorDark,
+                        backgroundColor: Color(0xffe5e5e5),
+                        center: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              '10',
+                              style: TextStyle(
+                                  fontSize: 25, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              ' %',
+                              textAlign: TextAlign.end,
+                              style: Theme.of(context).textTheme.caption,
+                            )
+                          ],
+                        ),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            'UI UX \nRedesign',
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            '86  / 100 post',
+                            style: TextStyle(fontSize: 11),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              RotatedBox(
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10))),
+                  margin: EdgeInsets.only(left: 40),
+                  alignment: Alignment.center,
+                  width: 80,
+                  height: 40,
+                  child: Text(
+                    'Challenges',
+                    style: Theme.of(context)
+                        .textTheme
+                        .caption
+                        .copyWith(color: Colors.white),
+                  ),
+                ),
+                quarterTurns: 1,
+              )
+            ],
+          ),
+          SizedBox(
+            height: 24.0,
+          ),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+              child: Text(
+                'Post',
+                maxLines: 2,
+                style: _theme.textTheme.headline
+                    .copyWith(fontWeight: FontWeight.w500),
+              ),
+            ),
+             NewProduct(),
+             SizedBox(
+            height: 24.0,
+          ),
         ],
       ),
     );
