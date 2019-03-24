@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:launcher/home_screen.dart';
@@ -21,16 +23,9 @@ class SignIn extends StatelessWidget {
                 child: ListView(
                   children: <Widget>[
                     ClipPath(
-                      // borderRadius: BorderRadius.only(
-                      //   bottomLeft: Radius.circular(100),
-                      //   bottomRight: Radius.circular(20),
-                      //   topLeft: Radius.circular(20),
-                      //   topRight: Radius.circular(20),
-                      // ),
-                      clipper: customclipper(),
+                       clipper: SlopeClipper(elevation: 100, radius: 30),
                       child: Container(
                         decoration: BoxDecoration(
-                          // borderRadius: BorderRadius.all(Radius.circular(50.0)),
                           color: Colors.white,
                         ),
                         constraints: BoxConstraints(minHeight: 200),
@@ -206,59 +201,62 @@ class SignIn extends StatelessWidget {
   }
 }
 
-// class BottomWaveClipper extends CustomClipper<Path> {
-//   @override
-//   Path getClip(Size size) {
-//     final path = Path()
-//       ..lineTo(0.0, 100)
-//       ..lineTo(0.0, size.height - verticalSpace)
-//       // ..quadraticBezierTo(size.width, 100,size.width, -100)
-//       // ..quadraticBezierTo(0, 0, 0, size.height - verticalSpace)
-//       ..lineTo(size.width, size.height)
-//       ..lineTo(size.width, 0.0)
-//       ..close();
+class SlopeClipper extends CustomClipper<Path> {
+  int n;
+  double elevation;
+  double radius;
 
-//     return path;
-//   }
+  SlopeClipper({this.n: 20,this.elevation,this.radius});
 
-//   @override
-//   bool shouldReclip(CustomClipper<Path> oldClipper) => true;
-// }
-class customclipper extends CustomClipper<Path> {
-  
   @override
-  Path getClip(Size size) {
-    var path = new Path();
-      path.lineTo(0.0,size.height );
-      
-      path.lineTo(0.0, size.height - 80);
-      path.lineTo(size.width, size.height);
-      path.lineTo(size.width, 0.0);
+  getClip(Size size) {
+    final points = List<Offset>(4*n+4);
 
+    // First arc
+    for(int i = 0; i < n+1; i++){
+      final theta = i * pi/2 / n;
+      final dx = size.width - radius + radius * sin(theta);
+      final dy = radius - radius * cos(theta);
+      points[i] = Offset(dx, dy);
+    }
 
-//octagono
-    //    path.lineTo(0.0, 80);
-    // path.lineTo(80, 0.0);
-    // path.lineTo(size.width - 80, 0.0);
-    // path.lineTo(size.width, 80);
-    // path.lineTo(size.width, size.height - 80);
-    // path.lineTo(size.width - 80, size.height);
-    // path.lineTo(80, size.height);
-    // path.lineTo(0.0, size.height - 80);
-    // path.lineTo(0.0, 80);
+    // Elevation angle
+    final phi = atan(elevation/size.width);
 
-//viseversa
-    // path.lineTo(0.0, size.height - 20);
-    // path.quadraticBezierTo(0.0, size.height, 20.0, size.height);
-    // path.lineTo(size.width - 20.0, size.height);
-    // path.quadraticBezierTo(size.width, size.height, size.width, size.height - 20);
-    // path.lineTo(size.width, 50.0);
-    // path.quadraticBezierTo(size.width, 30.0, size.width - 20.0, 30.0);
-    // path.lineTo(20.0, 5.0);
-    // path.quadraticBezierTo(0.0, 0.0, 0.0, 20.0);
-    return path;
+    // Second arc
+    var angle = (pi/2 - phi) / 2;
+    var x_center = size.width - radius;
+    var y_center = size.height - radius / tan(angle);
+    for(int i = 0; i < n+1; i++){
+      final theta = i * (pi/2 + phi) / n;
+      final dx = x_center + radius * cos(theta);
+      final dy = y_center + radius * sin(theta);
+      points[i + n + 1] = Offset(dx, dy);
+    }
+    
+    // Third arc
+    x_center = radius;
+    y_center = size.height - elevation - radius * tan(angle);
+    for(int i = 0; i < n+1; i++){
+      final theta = phi + i * (pi/2 - phi) / n;
+      final dx = x_center - radius * sin(theta);
+      final dy = y_center + radius * cos(theta);
+      points[i + 2*n + 2] = Offset(dx, dy);
+    }
+
+    // Fourth arc
+    x_center = radius;
+    y_center = radius;
+    for(int i = 0; i < n+1; i++){
+      final theta = i * pi/2 / n;
+      final dx = x_center - radius * cos(theta);
+      final dy = y_center - radius * sin(theta);
+      points[i + 3*n + 3] = Offset(dx, dy);
+    }
+
+    return Path()..addPolygon(points, true);
   }
 
   @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => true;
+  bool shouldReclip(CustomClipper oldClipper) => false;
 }
