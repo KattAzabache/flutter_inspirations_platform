@@ -23,7 +23,7 @@ class SignIn extends StatelessWidget {
                 child: ListView(
                   children: <Widget>[
                     ClipPath(
-                       clipper: SlopeClipper(elevation: 100, radius: 30),
+                      clipper: SlopeClipper(elevation: 100, radius: 30),
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -69,36 +69,31 @@ class SignIn extends StatelessWidget {
                             SizedBox(
                               height: 80,
                             ),
-                            Stack(
-                              children: <Widget>[
-                                Align(
-                                  alignment: Alignment.bottomRight,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        gradient: LinearGradient(colors: [
-                                          _theme.primaryColorDark,
-                                          _theme.primaryColor
-                                        ]),
-                                      ),
-                                      padding: EdgeInsets.all(8),
-                                      child: InkWell(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    HomeScreen()),
-                                          );
-                                        },
-                                        child: Icon(
-                                          Icons.arrow_forward,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                )
-                              ],
+                            Align(
+                              alignment: Alignment.bottomRight,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  gradient: LinearGradient(colors: [
+                                    _theme.primaryColorDark,
+                                    _theme.primaryColor
+                                  ]),
+                                ),
+                                padding: EdgeInsets.all(8),
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => HomeScreen()),
+                                    );
+                                  },
+                                  child: Icon(
+                                    Icons.arrow_forward,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
                             ),
                             SizedBox(
                               height: 30,
@@ -202,59 +197,41 @@ class SignIn extends StatelessWidget {
 }
 
 class SlopeClipper extends CustomClipper<Path> {
-  int n;
-  double elevation;
-  double radius;
+  final int n;
+  final double elevation;
+  final double radius;
+  final List<Offset> points;
 
-  SlopeClipper({this.n: 20,this.elevation,this.radius});
+  SlopeClipper({this.n: 20, this.elevation, this.radius})
+      : points = List<Offset>(4 * n + 4);
 
   @override
   getClip(Size size) {
-    final points = List<Offset>(4*n+4);
-
-    // First arc
-    for(int i = 0; i < n+1; i++){
-      final theta = i * pi/2 / n;
-      final dx = size.width - radius + radius * sin(theta);
-      final dy = radius - radius * cos(theta);
-      points[i] = Offset(dx, dy);
-    }
-
     // Elevation angle
-    final phi = atan(elevation/size.width);
+    final phi = atan(elevation / size.width);
+    final angle = (pi / 2 - phi) / 2;
 
-    // Second arc
-    var angle = (pi/2 - phi) / 2;
-    var x_center = size.width - radius;
-    var y_center = size.height - radius / tan(angle);
-    for(int i = 0; i < n+1; i++){
-      final theta = i * (pi/2 + phi) / n;
-      final dx = x_center + radius * cos(theta);
-      final dy = y_center + radius * sin(theta);
-      points[i + n + 1] = Offset(dx, dy);
-    }
-    
-    // Third arc
-    x_center = radius;
-    y_center = size.height - elevation - radius * tan(angle);
-    for(int i = 0; i < n+1; i++){
-      final theta = phi + i * (pi/2 - phi) / n;
-      final dx = x_center - radius * sin(theta);
-      final dy = y_center + radius * cos(theta);
-      points[i + 2*n + 2] = Offset(dx, dy);
-    }
-
-    // Fourth arc
-    x_center = radius;
-    y_center = radius;
-    for(int i = 0; i < n+1; i++){
-      final theta = i * pi/2 / n;
-      final dx = x_center - radius * cos(theta);
-      final dy = y_center - radius * sin(theta);
-      points[i + 3*n + 3] = Offset(dx, dy);
-    }
-
+    // Centers
+    final center2 =
+        Offset(size.width - radius, size.height - radius / tan(angle));
+    final center3 =
+        Offset(radius, size.height - elevation - radius * tan(angle));
+    // arcs
+    generateArc(Offset(radius, radius), pi, 1.5 * pi, 0);
+    generateArc(Offset(size.width - radius, radius), -pi / 2, 0, n + 1);
+    generateArc(center2, 0, pi / 2 + phi, 2 * n + 2);
+    generateArc(center3, pi / 2 + phi, pi, 3 * n + 3);
     return Path()..addPolygon(points, true);
+  }
+
+  generateArc(Offset center, double phi1, double phi2, int startIndex) {
+    final angleStep = (phi2 - phi1) / n;
+    for (int i = 0; i < n + 1; i++) {
+      final theta = phi1 + i * angleStep;
+      final dx = center.dx + radius * cos(theta);
+      final dy = center.dy + radius * sin(theta);
+      points[i + startIndex] = Offset(dx, dy);
+    }
   }
 
   @override
