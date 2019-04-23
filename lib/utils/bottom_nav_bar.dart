@@ -42,9 +42,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
               children: <Widget>[
                 IconTheme(
                   data: IconThemeData(
-                      size: 24,
-                      color:
-                          isSelected ? _theme.primaryColorDark : Colors.black),
+                    size: 24,
+                    color: isSelected ? _theme.primaryColorDark : Colors.black,
+                  ),
                   child: item.icon,
                 ),
                 Padding(
@@ -70,7 +70,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    final _theme = Theme.of(context);
     return Container(
       width: width,
       color: Colors.white,
