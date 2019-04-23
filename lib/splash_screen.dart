@@ -10,15 +10,12 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
-  startTime() async {
-    var _duration = new Duration(seconds: 4);
-    return new Timer(_duration, navigationPage);
-  }
+  startTime() => Timer(Duration(seconds: 4), goToLogin);
 
   Animation<double> animation;
   AnimationController controller;
 
-  void navigationPage() {
+  void goToLogin() {
     Navigator.of(context).pushReplacementNamed('/Login');
   }
 
@@ -38,16 +35,18 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-     final _theme = Theme.of(context);
+    final _theme = Theme.of(context);
     return new Container(
       color: _theme.primaryColor,
       child: Center(
         child: ScaleTransition(
           scale: controller,
           child: Container(
-            width: 130.0,
-            child: Icon(FontAwesomeIcons.swatchbook,color: Colors.white,)
-          ),
+              width: 130.0,
+              child: Icon(
+                FontAwesomeIcons.swatchbook,
+                color: Colors.white,
+              )),
         ),
       ),
     );
