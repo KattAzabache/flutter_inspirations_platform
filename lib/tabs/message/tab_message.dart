@@ -4,7 +4,6 @@ import 'package:launcher/tabs/message/item_message.dart';
 import 'package:launcher/tabs/message/search.dart';
 
 class TabMessage extends StatelessWidget {
-  
   @override
   Widget build(BuildContext context) {
     final _theme = Theme.of(context);
@@ -14,16 +13,16 @@ class TabMessage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title:  Container(
+        title: Container(
           alignment: Alignment.centerLeft,
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              'Message',
-              maxLines: 2,
-              style: _theme.textTheme.display1
-                  .copyWith(fontWeight: FontWeight.bold, color:  _theme.primaryColorDark),
-            ),
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            'Message',
+            maxLines: 2,
+            style: _theme.textTheme.display1.copyWith(
+                fontWeight: FontWeight.bold, color: _theme.primaryColorDark),
           ),
+        ),
         automaticallyImplyLeading: false,
         actions: <Widget>[
           new PopupMenuButton(
@@ -55,23 +54,20 @@ class TabMessage extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-           SizedBox(
+          SizedBox(
             height: 16.0,
           ),
           Search(),
-           SizedBox(
+          SizedBox(
             height: 16.0,
           ),
-           Expanded(
-              child: ListView.builder(
-                shrinkWrap: true,
-                // itemCount: items.length,
-                itemBuilder: (context, index) {
-                  return ItemMessage();
-                },
-              ),
+          Expanded(
+            child: ListView.builder(
+              shrinkWrap: true,
+              // itemCount: items.length,
+              itemBuilder: (context, index) => ItemMessage(index: index),
             ),
-          
+          ),
         ],
       ),
     );
