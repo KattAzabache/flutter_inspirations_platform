@@ -4,7 +4,8 @@ class BottomNavBar extends StatefulWidget {
   final int selectedIndex;
   final Function(int index) onTap;
 
-  const BottomNavBar({Key key, this.selectedIndex, this.onTap}) : super(key: key);
+  const BottomNavBar({Key key, this.selectedIndex, this.onTap})
+      : super(key: key);
   @override
   _BottomNavBarState createState() => _BottomNavBarState();
 }
@@ -28,7 +29,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
               color: _theme.primaryColor.withOpacity(0.2),
               borderRadius: BorderRadius.circular(50))
           : BoxDecoration(
-              color: Colors.transparent,),
+              color: Colors.transparent,
+            ),
       child: Center(
         child: ListView(
           scrollDirection: Axis.horizontal,
@@ -40,9 +42,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
               children: <Widget>[
                 IconTheme(
                   data: IconThemeData(
-                      size: 24,
-                      color:
-                          isSelected ? _theme.primaryColorDark : Colors.black),
+                    size: 24,
+                    color: isSelected ? _theme.primaryColorDark : Colors.black,
+                  ),
                   child: item.icon,
                 ),
                 Padding(
@@ -68,7 +70,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    final _theme = Theme.of(context);
     return Container(
       width: width,
       color: Colors.white,
@@ -77,13 +78,13 @@ class _BottomNavBarState extends State<BottomNavBar> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: items.map((item) {
-          var itemIndex = items.indexOf(item);
+        children: List<Widget>.generate(items.length, (i) {
+          final item = items[i];
           return GestureDetector(
-            onTap: ()=> widget.onTap(itemIndex),
-            child: _buildItem(item, widget.selectedIndex == itemIndex),
+            onTap: () => widget.onTap(i),
+            child: _buildItem(item, widget.selectedIndex == i),
           );
-        }).toList(),
+        }),
       ),
     );
   }

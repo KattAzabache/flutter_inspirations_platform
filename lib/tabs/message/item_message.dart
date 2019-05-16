@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class ItemMessage extends StatelessWidget {
-  final List<String> items;
+  //final List<String> items;
+  final int index;
 
-  ItemMessage({Key key, @required this.items}) : super(key: key);
+  ItemMessage({Key key, this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,10 @@ class ItemMessage extends StatelessWidget {
                   ),
                   foregroundColor: Colors.white,
                 ),
-                title: new Text('Tile n°',style: TextStyle(fontWeight: FontWeight.w500),),
+                title: new Text(
+                  'Tile n° $index',
+                  style: TextStyle(fontWeight: FontWeight.w500),
+                ),
                 subtitle: new Text('SlidableDrawerDelegate'),
                 trailing: Text(
                   '12 min',
